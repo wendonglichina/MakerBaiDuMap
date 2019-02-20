@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
+    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
+    <title>百度地图API自定义地图</title>
+    <!--引用百度地图API-->
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TYoptjma8Gn1fLlK4UzWcfMxAKRdbb5Y"></script>
+  </head>
+  
+  <body>
+    <!--百度地图容器-->
+    <div style="width:1810px;height:920px;border:#ccc solid 1px;font-size:12px" id="map"></div>
+  </body>
+  <script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+      createMap();//创建地图
+      setMapEvent();//设置地图事件
+      addMapControl();//向地图添加控件
+      addMapOverlay();//向地图添加覆盖物
+    }
+    function createMap(){ 
+      map = new BMap.Map("map"); 
+      map.centerAndZoom(new BMap.Point(121.201615,31.285414),15);
+    }
+    function setMapEvent(){
+      map.enableScrollWheelZoom();
+      map.enableKeyboard();
+      map.enableDragging();
+      map.enableDoubleClickZoom()
+    }
+    function addClickHandler(target,window){
+      target.addEventListener("click",function(){
+        target.openInfoWindow(window);
+      });
+    }
+    function addMapOverlay(){
+      var markers = [
+	{content:"上海市嘉定区新源路830号",title:"A1",imageOffset: {width:-92,height:-46},position:{lat:31.306952,lng:121.159629}},
+	{content:"上海市嘉定区墨玉路399号",title:"A2",imageOffset: {width:-92,height:-46},position:{lat:31.307152,lng:121.169564}},
+	{content:"上海市嘉定区米泉路860号",title:"A3",imageOffset: {width:-92,height:-46},position:{lat:31.307415,lng:121.18223}},
+	{content:"上海市嘉定区塔山路1229号",title:"A4",imageOffset: {width:-92,height:-46},position:{lat:31.307476,lng:121.184602}},
+	{content:"上海市嘉定区于田路617号",title:"A5",imageOffset: {width:-92,height:-46},position:{lat:31.307646,lng:121.193153}},
+	{content:"上海市嘉定区于田路307号",title:"A6",imageOffset: {width:-92,height:-46},position:{lat:31.301568,lng:121.193153}},
+	{content:"上海市嘉定区嘉松北路5992号",title:"A7",imageOffset: {width:-92,height:-46},position:{lat:31.296816,lng:121.229355}},
+	{content:"上海市嘉定区嘉松北路6701号",title:"A8",imageOffset: {width:-92,height:-46},position:{lat:31.283393,lng:121.224253}},
+	{content:"上海市嘉定区绿苑路595号",title:"A9",imageOffset: {width:-92,height:-46},position:{lat:31.287975,lng:121.21818}},
+	{content:"上海市嘉定区曹安路24号",title:"A10",imageOffset: {width:-92,height:-46},position:{lat:31.291663,lng:121.205352}},
+	{content:"上海市嘉定区G312(曹安公路)",title:"A11",imageOffset: {width:-92,height:-46},position:{lat:31.292002,lng:121.193117}},
+	{content:"上海市嘉定区G312(曹安公路)",title:"A12",imageOffset: {width:-92,height:-46},position:{lat:31.294054,lng:121.182248}},
+	{content:"上海市嘉定区墨玉路11号",title:"A13",imageOffset: {width:-92,height:-46},position:{lat:31.294702,lng:121.169923}},
+	{content:"上海市嘉定区G312(曹安公路)",title:"A14",imageOffset: {width:-92,height:-46},position:{lat:31.294533,lng:121.166007}},
+	{content:"上海市嘉定区墨玉南路",title:"A15",imageOffset: {width:-92,height:-46},position:{lat:31.28617,lng:121.171253}},
+	{content:"上海市嘉定区米泉南路",title:"A16",imageOffset: {width:-92,height:-46},position:{lat:31.288438,lng:121.181961}},
+	{content:"上海市嘉定区博园路7001号",title:"A17",imageOffset: {width:-92,height:-46},position:{lat:31.286124,lng:121.186398}},
+	{content:"上海市嘉定区安研路",title:"A18",imageOffset: {width:-92,height:-46},position:{lat:31.280847,lng:121.195741}},
+	{content:"上海市嘉定区X185(博园路)",title:"A19",imageOffset: {width:-92,height:-46},position:{lat:31.279859,lng:121.1991}},
+	{content:"上海市嘉定区嘉松北路7827号",title:"A20",imageOffset: {width:-92,height:-46},position:{lat:31.270515,lng:121.210607}},
+	{content:"上海市嘉定区嘉松北路6993号",title:"A21",imageOffset: {width:-92,height:-46},position:{lat:31.277976,lng:121.218647}},
+	{content:"上海市嘉定区新黄路17号",title:"A22",imageOffset: {width:-92,height:-46},position:{lat:31.272876,lng:121.222241}},
+	{content:"上海市嘉定区博园路3000-1号",title:"A23",imageOffset: {width:-92,height:-46},position:{lat:31.285237,lng:121.198705}},
+	{content:"上海市嘉定区安虹路555",title:"A24",imageOffset: {width:-92,height:-46},position:{lat:31.282629,lng:121.201975}},
+	{content:"上海市嘉定区安研路",title:"A25",imageOffset: {width:-92,height:-46},position:{lat:31.288029,lng:121.205855}},
+	{content:"上海市嘉定区曹安公路4298号-107室",title:"H1",imageOffset: {width:-92,height:-46},position:{lat:31.281063,lng:121.253825}},
+        {content:"原点",title:"原点",imageOffset: {width:-92,height:-46},position:{lat:31.285414,lng:121.201615}}
+      ];
+      for(var index = 0; index < markers.length; index++ ){
+        var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
+        var marker = new BMap.Marker(point,{icon:new BMap.Icon("http://api.map.baidu.com/lbsapi/createmap/images/icon.png",new BMap.Size(20,25),{
+          imageOffset: new BMap.Size(markers[index].imageOffset.width,markers[index].imageOffset.height)
+        })});
+        var label = new BMap.Label(markers[index].title,{offset: new BMap.Size(25,5)});
+        var opts = {
+          width: 200,
+          title: markers[index].title,
+          enableMessage: false
+        };
+        var infoWindow = new BMap.InfoWindow(markers[index].content,opts);
+        marker.setLabel(label);
+        addClickHandler(marker,infoWindow);
+        map.addOverlay(marker);
+      };
+    }
+    //向地图添加控件
+    function addMapControl(){
+      var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+      scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+      map.addControl(scaleControl);
+      var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+      map.addControl(navControl);
+    }
+    var map;
+      initMap();
+  </script>
+</html>
