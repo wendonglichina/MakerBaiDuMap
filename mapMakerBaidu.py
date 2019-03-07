@@ -81,15 +81,52 @@ def readHtmlAndRevise():
     sheet = wb.get_sheet_by_name("PointAndAddress")
     newhtml = ""
     markerIn = False
+    lib = {}
+    
+    for i in range(2,sheet.max_row + 1):
+        lists = []
+        lists.append(sheet["A" + str(i)].value)
+        lists.append(sheet["F" + str(i)].value)
+        toMarker = sheet["G" + str(i)].value
+        toMarkers = []
+        if toMarker == None:
+            marker = "None"
+            toMarkers.append(marker)
+        else:
+            markers = toMarker.split(",")
+            for maker in markers:
+                toMarkers.append(maker)
+        lists.append(toMarkers)
+        if sheet["D" + str(i)].value not in lib.keys():
+            lib[sheet["D" + str(i)].value] = lists
+        else:
+            print "error: has more then one" + sheet["D" + str(i)].value
+
     for line in htmlf:
         newhtml = newhtml + line
         if line.strip() == "function addMapOverlay(){":
             markerIn = True
             continue
+        if line.strip() == "var walking = new BMap.WalkingRoute(map);":
+            for Key in lib.keys():
+                pointBgein = lib[Key][0]
+                pointEnds = lib[Key][2]
+                if pointEnds[0] == "None":
+                    continue
+                for pointEndName in pointEnds:
+                    #print Key + "to:" + pointEndName
+                    pointEnd = lib[pointEndName][0]
+                    addLine = u"\t" + "walking.search(new BMap.Point(" + pointBgein + "), new BMap.Point(" + pointEnd + "));\n"
+                    #print addLine
+                    newhtml = newhtml + addLine.encode("utf-8")
         if markerIn:
-            for i in range(2,sheet.max_row + 1):
-                addLine = u"\t" + sheet["F" + str(i)].value + u",\n"
-                newhtml = newhtml + addLine.encode("utf-8") 
+            #for i in range(2,sheet.max_row + 1):
+            #    addLine = u"\t" + sheet["F" + str(i)].value + u",\n"
+             #   newhtml = newhtml + addLine.encode("utf-8") 
+            for Key in lib.keys():
+                values = lib[Key][1]
+                addLine = u"\t" + values + u",\n"
+                newhtml = newhtml + addLine.encode("utf-8")
             markerIn = False   
     htmlf.close()
     file = r'maps.html'
@@ -124,7 +161,7 @@ if __name__=='__main__':
     address = '上海市嘉定区安亭镇安拓路56号汽车·创新港'
     location = "31.306952,121.159629"
     #标签增加或删除，从新整理exlce
-    resetExcel = True
+    resetExcel = False
     if resetExcel:
         readAndWriteExcel()
     readHtmlAndRevise()

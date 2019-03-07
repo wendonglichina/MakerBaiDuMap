@@ -1,0 +1,43 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>Track</title>  
+<style type="text/css">  
+    html{height:100%}  
+    body{height:100%;margin:0px;padding:0px}  
+    #controller{width:100%; border-bottom:3px outset; height:30px; filter:alpha(Opacity=100); -moz-opacity:1; opacity:1; z-index:10000; background-color:lightblue;}  
+    #container{height:100%}  
+</style>    
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=D2b4558ebed15e52558c6a766c35ee73"></script>  
+<script type="text/javascript">  
+//获取所有点的坐标  
+var points = [new BMap.Point(121.184602,31.307476)];  
+  
+var map;   //百度地图对象   
+  
+function init() {   
+  
+    //初始化地图,选取第一个点为起始点  
+    map = new BMap.Map("container");  
+    map.centerAndZoom(points[0], 15);  
+      
+    //通过DrivingRoute获取一条路线的point  
+    var driving = new BMap.DrivingRoute(map);  
+    driving.search(new BMap.Point(121.182248,31.294054), new BMap.Point(121.169564,31.307152));  
+    driving.search(new BMap.Point(121.166007,31.294533), new BMap.Point(121.210607,31.270515));
+    driving.setSearchCompleteCallback(function() {  
+        //得到路线上的所有point  
+        points = driving.getResults().getPlan(0).getRoute(0).getPath();  
+        //连接所有点  
+        map.addOverlay(new BMap.Polyline(points, {strokeColor: "black", strokeWeight: 5, strokeOpacity: 1}));   
+    });  
+}  
+</script>  
+</head>    
+     
+<body onload="init();">     
+    <div id="container"></div>  
+</body>    
+</html>  

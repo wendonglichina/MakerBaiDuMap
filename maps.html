@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
-    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
-    <title>百度地图API自定义地图</title>
+    <meta name="keywords" content="数据采集轨迹" />
+    <meta name="description" content="路口标签道路命名" />
+    <title>已采集数据采集路口标签分布图</title>
     <!--引用百度地图API-->
 
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TYoptjma8Gn1fLlK4UzWcfMxAKRdbb5Y"></script>
@@ -21,6 +21,7 @@
       setMapEvent();//设置地图事件
       addMapControl();//向地图添加控件
       addMapOverlay();//向地图添加覆盖物
+      init();//线路
     }
     function createMap(){ 
       map = new BMap.Map("map"); 
@@ -39,25 +40,25 @@
     }
     function addMapOverlay(){
       var markers = [
-	{content:"上海市嘉定区新源路830号",title:"A1",imageOffset: {width:-92,height:-46},position:{lat:31.306952,lng:121.159629}},
-	{content:"上海市嘉定区墨玉路399号",title:"A2",imageOffset: {width:-92,height:-46},position:{lat:31.307152,lng:121.169564}},
-	{content:"上海市嘉定区米泉路860号",title:"A3",imageOffset: {width:-92,height:-46},position:{lat:31.307415,lng:121.18223}},
-	{content:"上海市嘉定区塔山路1229号",title:"A4",imageOffset: {width:-92,height:-46},position:{lat:31.307476,lng:121.184602}},
-	{content:"上海市嘉定区于田路617号",title:"A5",imageOffset: {width:-92,height:-46},position:{lat:31.307646,lng:121.193153}},
-	{content:"上海市嘉定区于田路307号",title:"A6",imageOffset: {width:-92,height:-46},position:{lat:31.301568,lng:121.193153}},
-	{content:"上海市嘉定区嘉松北路5992号",title:"A7",imageOffset: {width:-92,height:-46},position:{lat:31.296816,lng:121.229355}},
-	{content:"上海市嘉定区嘉松北路6701号",title:"A8",imageOffset: {width:-92,height:-46},position:{lat:31.283393,lng:121.224253}},
-	{content:"上海市嘉定区绿苑路595号",title:"A9",imageOffset: {width:-92,height:-46},position:{lat:31.287975,lng:121.21818}},
-	{content:"上海市嘉定区曹安路24号",title:"A10",imageOffset: {width:-92,height:-46},position:{lat:31.291663,lng:121.205352}},
-	{content:"上海市嘉定区G312(曹安公路)",title:"A11",imageOffset: {width:-92,height:-46},position:{lat:31.292002,lng:121.193117}},
-	{content:"上海市嘉定区G312(曹安公路)",title:"A12",imageOffset: {width:-92,height:-46},position:{lat:31.294054,lng:121.182248}},
-	{content:"上海市嘉定区墨玉路11号",title:"A13",imageOffset: {width:-92,height:-46},position:{lat:31.294702,lng:121.169923}},
-	{content:"上海市嘉定区G312(曹安公路)",title:"A14",imageOffset: {width:-92,height:-46},position:{lat:31.294533,lng:121.166007}},
 	{content:"上海市嘉定区墨玉南路",title:"A15",imageOffset: {width:-92,height:-46},position:{lat:31.28617,lng:121.171253}},
-	{content:"上海市嘉定区米泉南路",title:"A16",imageOffset: {width:-92,height:-46},position:{lat:31.288438,lng:121.181961}},
+	{content:"上海市嘉定区G312(曹安公路)",title:"A14",imageOffset: {width:-92,height:-46},position:{lat:31.294533,lng:121.166007}},
 	{content:"上海市嘉定区博园路7001号",title:"A17",imageOffset: {width:-92,height:-46},position:{lat:31.286124,lng:121.186398}},
-	{content:"上海市嘉定区安研路",title:"A18",imageOffset: {width:-92,height:-46},position:{lat:31.280847,lng:121.195741}},
+	{content:"上海市嘉定区米泉南路",title:"A16",imageOffset: {width:-92,height:-46},position:{lat:31.288438,lng:121.181961}},
+	{content:"上海市嘉定区G312(曹安公路)",title:"A11",imageOffset: {width:-92,height:-46},position:{lat:31.292002,lng:121.193117}},
+	{content:"上海市嘉定区曹安路24号",title:"A10",imageOffset: {width:-92,height:-46},position:{lat:31.291663,lng:121.205352}},
+	{content:"上海市嘉定区墨玉路11号",title:"A13",imageOffset: {width:-92,height:-46},position:{lat:31.294702,lng:121.169923}},
+	{content:"上海市嘉定区G312(曹安公路)",title:"A12",imageOffset: {width:-92,height:-46},position:{lat:31.294054,lng:121.182248}},
 	{content:"上海市嘉定区X185(博园路)",title:"A19",imageOffset: {width:-92,height:-46},position:{lat:31.279859,lng:121.1991}},
+	{content:"上海市嘉定区安研路",title:"A18",imageOffset: {width:-92,height:-46},position:{lat:31.280847,lng:121.195741}},
+	{content:"上海市嘉定区新源路830号",title:"A1",imageOffset: {width:-92,height:-46},position:{lat:31.306952,lng:121.159629}},
+	{content:"上海市嘉定区米泉路860号",title:"A3",imageOffset: {width:-92,height:-46},position:{lat:31.307415,lng:121.18223}},
+	{content:"上海市嘉定区墨玉路399号",title:"A2",imageOffset: {width:-92,height:-46},position:{lat:31.307152,lng:121.169564}},
+	{content:"上海市嘉定区于田路617号",title:"A5",imageOffset: {width:-92,height:-46},position:{lat:31.307646,lng:121.193153}},
+	{content:"上海市嘉定区塔山路1229号",title:"A4",imageOffset: {width:-92,height:-46},position:{lat:31.307476,lng:121.184602}},
+	{content:"上海市嘉定区嘉松北路5992号",title:"A7",imageOffset: {width:-92,height:-46},position:{lat:31.296816,lng:121.229355}},
+	{content:"上海市嘉定区于田路307号",title:"A6",imageOffset: {width:-92,height:-46},position:{lat:31.301568,lng:121.193153}},
+	{content:"上海市嘉定区绿苑路595号",title:"A9",imageOffset: {width:-92,height:-46},position:{lat:31.287975,lng:121.21818}},
+	{content:"上海市嘉定区嘉松北路6701号",title:"A8",imageOffset: {width:-92,height:-46},position:{lat:31.283393,lng:121.224253}},
 	{content:"上海市嘉定区嘉松北路7827号",title:"A20",imageOffset: {width:-92,height:-46},position:{lat:31.270515,lng:121.210607}},
 	{content:"上海市嘉定区嘉松北路6993号",title:"A21",imageOffset: {width:-92,height:-46},position:{lat:31.277976,lng:121.218647}},
 	{content:"上海市嘉定区新黄路17号",title:"A22",imageOffset: {width:-92,height:-46},position:{lat:31.272876,lng:121.222241}},
@@ -92,6 +93,51 @@
       var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
       map.addControl(navControl);
     }
+    function init() {   
+    //通过DrivingRoute获取一条路线的point  
+      var walking = new BMap.WalkingRoute(map);  
+	walking.search(new BMap.Point(121.171253,31.28617), new BMap.Point(121.181961,31.288438));
+	walking.search(new BMap.Point(121.166007,31.294533), new BMap.Point(121.169923,31.294702));
+	walking.search(new BMap.Point(121.186398,31.286124), new BMap.Point(121.195741,31.280847));
+	walking.search(new BMap.Point(121.181961,31.288438), new BMap.Point(121.186398,31.286124));
+	walking.search(new BMap.Point(121.193117,31.292002), new BMap.Point(121.205352,31.291663));
+	walking.search(new BMap.Point(121.193117,31.292002), new BMap.Point(121.186398,31.286124));
+	walking.search(new BMap.Point(121.205352,31.291663), new BMap.Point(121.21818,31.287975));
+	walking.search(new BMap.Point(121.205352,31.291663), new BMap.Point(121.205855,31.288029));
+	walking.search(new BMap.Point(121.169923,31.294702), new BMap.Point(121.182248,31.294054));
+	walking.search(new BMap.Point(121.169923,31.294702), new BMap.Point(121.171253,31.28617));
+	walking.search(new BMap.Point(121.182248,31.294054), new BMap.Point(121.193117,31.292002));
+	walking.search(new BMap.Point(121.182248,31.294054), new BMap.Point(121.181961,31.288438));
+	walking.search(new BMap.Point(121.1991,31.279859), new BMap.Point(121.210607,31.270515));
+	walking.search(new BMap.Point(121.195741,31.280847), new BMap.Point(121.1991,31.279859));
+	walking.search(new BMap.Point(121.159629,31.306952), new BMap.Point(121.169564,31.307152));
+	walking.search(new BMap.Point(121.159629,31.306952), new BMap.Point(121.166007,31.294533));
+	walking.search(new BMap.Point(121.18223,31.307415), new BMap.Point(121.182248,31.294054));
+	walking.search(new BMap.Point(121.18223,31.307415), new BMap.Point(121.184602,31.307476));
+	walking.search(new BMap.Point(121.169564,31.307152), new BMap.Point(121.18223,31.307415));
+	walking.search(new BMap.Point(121.169564,31.307152), new BMap.Point(121.169923,31.294702));
+	walking.search(new BMap.Point(121.193153,31.307646), new BMap.Point(121.193153,31.301568));
+	walking.search(new BMap.Point(121.184602,31.307476), new BMap.Point(121.193153,31.307646));
+	walking.search(new BMap.Point(121.229355,31.296816), new BMap.Point(121.224253,31.283393));
+	walking.search(new BMap.Point(121.193153,31.301568), new BMap.Point(121.229355,31.296816));
+	walking.search(new BMap.Point(121.193153,31.301568), new BMap.Point(121.193117,31.292002));
+	walking.search(new BMap.Point(121.21818,31.287975), new BMap.Point(121.218647,31.277976));
+	walking.search(new BMap.Point(121.21818,31.287975), new BMap.Point(121.224253,31.283393));
+	walking.search(new BMap.Point(121.224253,31.283393), new BMap.Point(121.218647,31.277976));
+	walking.search(new BMap.Point(121.218647,31.277976), new BMap.Point(121.210607,31.270515));
+	walking.search(new BMap.Point(121.218647,31.277976), new BMap.Point(121.222241,31.272876));
+	walking.search(new BMap.Point(121.198705,31.285237), new BMap.Point(121.195741,31.280847));
+	walking.search(new BMap.Point(121.198705,31.285237), new BMap.Point(121.201975,31.282629));
+	walking.search(new BMap.Point(121.201975,31.282629), new BMap.Point(121.1991,31.279859));
+	walking.search(new BMap.Point(121.205855,31.288029), new BMap.Point(121.198705,31.285237));
+	walking.search(new BMap.Point(121.205855,31.288029), new BMap.Point(121.201975,31.282629));
+      walking.setSearchCompleteCallback(function() {  
+        //得到路线上的所有point  
+        points = walking.getResults().getPlan(0).getRoute(0).getPath();  
+        //连接所有点  
+        map.addOverlay(new BMap.Polyline(points, {strokeColor: "red", strokeWeight: 5, strokeOpacity: 1}));   
+        });  
+    }  
     var map;
       initMap();
   </script>

@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
-    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
-    <title>百度地图API自定义地图</title>
+    <meta name="keywords" content="数据采集轨迹" />
+    <meta name="description" content="路口标签道路命名" />
+    <title>已采集数据采集路口标签分布图</title>
     <!--引用百度地图API-->
 
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TYoptjma8Gn1fLlK4UzWcfMxAKRdbb5Y"></script>
@@ -21,6 +21,7 @@
       setMapEvent();//设置地图事件
       addMapControl();//向地图添加控件
       addMapOverlay();//向地图添加覆盖物
+      init();//线路
     }
     function createMap(){ 
       map = new BMap.Map("map"); 
@@ -66,6 +67,16 @@
       var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
       map.addControl(navControl);
     }
+    function init() {   
+    //通过DrivingRoute获取一条路线的point  
+      var walking = new BMap.WalkingRoute(map);  
+      walking.setSearchCompleteCallback(function() {  
+        //得到路线上的所有point  
+        points = walking.getResults().getPlan(0).getRoute(0).getPath();  
+        //连接所有点  
+        map.addOverlay(new BMap.Polyline(points, {strokeColor: "red", strokeWeight: 5, strokeOpacity: 1}));   
+        });  
+    }  
     var map;
       initMap();
   </script>
